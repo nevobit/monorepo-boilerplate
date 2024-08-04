@@ -1,0 +1,24 @@
+{
+  "name": "@repo/business-logic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.622.0",
+    "@repo/constant-definitions": "workspace:^",
+    "@repo/core-modules": "workspace:^",
+    "@repo/data-sources": "workspace:^",
+    "@repo/entities": "workspace:^",
+    "fastify": "^4.28.1",
+    "mongoose": "^8.5.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:^"
+  }
+}

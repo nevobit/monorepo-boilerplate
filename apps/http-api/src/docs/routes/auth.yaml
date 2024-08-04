@@ -1,0 +1,24 @@
+/auth/sso:
+  post:
+    summary: Authenticate with SSO
+    tags:
+      - Authentication
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SSORequest'
+    responses:
+      '200':
+        description: Successful authentication
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthResponse'
+      '401':
+        description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'

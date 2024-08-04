@@ -1,0 +1,22 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "outDir": "build/ts",
+    "rootDir": "./",
+    "strictFunctionTypes": false,
+    "paths": {
+      "tests/*": ["./tests/*"]
+    }
+  },
+  "include": [
+    "./src",
+    "./src/**/*.json",
+    "./locales/**/*.json",
+    "./tests",
+    "./playground",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
+  ],
+  "exclude": ["./src/components/**/*.stories.tsx"]
+}
