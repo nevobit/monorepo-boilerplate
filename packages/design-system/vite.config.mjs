@@ -3,8 +3,6 @@ import {readFileSync} from 'fs';
 import {defineConfig} from 'vite';
 import {replaceCodePlugin} from 'vite-plugin-replace';
 
-import {generateScopedName} from './config/rollup/namespaced-classname.mjs';
-
 const pkg = JSON.parse(
   readFileSync(new URL('./package.json', import.meta.url)),
 );
@@ -15,7 +13,7 @@ export default defineConfig(() => ({
     replaceCodePlugin({
       replacements: [
         {
-          from: '{{POLARIS_VERSION}}',
+          from: '{{PROJECT_VERSION}}',
           to: pkg.version,
         },
       ],
@@ -23,7 +21,6 @@ export default defineConfig(() => ({
   ],
   css: {
     modules: {
-      generateScopedName: generateScopedName({includeHash: false}),
       globalModulePaths: [/global\.css$/],
     },
   },

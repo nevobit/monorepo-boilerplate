@@ -16,8 +16,9 @@ import { registerRoutes } from "../routes";
 import { initDataSources } from '@repo/data-sources';
 import { setLogger } from "@repo/constant-definitions";
 import { swaggerOptions, swaggerUiOptions } from "../docs";
+import { verify } from "@repo/business-logic";
 
-const { PORT, HOST, REGION, CORS_ORIGIN, ENVIRONMENT } = process.env;
+const { PORT, HOST, REGION, CORS_ORIGIN, ENVIRONMENT, DATABASE_URL, MONGO_URL, REDIS_URL } = process.env;
 
 const consoleOptions = {
   transport: LoggerTransportName.CONSOLE,
@@ -68,12 +69,17 @@ MonoContext.setState({
 const main = async () => {
   await initDataSources({
     postgresqldb: {
-      postgresUrl: "postgres://postgres:lrcjy7Ee1bP3m5dEVumX@joobs-dev-database.cnogsjm6nhj6.us-east-2.rds.amazonaws.com/postgres"
+      postgresUrl: DATABASE_URL
     },
     mongoose: {
-      mongoUrl: "mongodb+srv://devdevops:PuTCtTJXRrtwbAEc@helebba-cluster.2ook891.mongodb.net/boilerplate?retryWrites=true"
+      mongoUrl: MONGO_URL
+    },
+    redisdb: {
+      redisReadUrl: REDIS_URL,
+      redisWriteUrl: REDIS_URL
     }
-  })
+  });
+
   const server = fastify({
     logger: false,
   });
@@ -97,6 +103,13 @@ const main = async () => {
   server.register(fastifySwagger, swaggerOptions);
   server.register(fastifySwaggerUi, swaggerUiOptions);
 
+  server.addHook('preValidation', async (req, reply) => {
+    const data = await verify({ url: req.routeOptions.url, body: req.body, headers: req.headers, protocol: req.protocol });
+    if (data?.type == "error") {
+      reply.send(data.message)
+    }
+  });
+
   server.register(
     (instance, options, next) => {
       registerRoutes(instance);
@@ -106,7 +119,7 @@ const main = async () => {
   );
 
     server.listen(
-    { port: PORT || 8000, host: HOST },
+      { port: Number(PORT) || 8000, host: HOST },
     (err, address) => {
       logger.all(`Server successfully started on: `, { address });
       logger.info("Press CTRL-c to stop");

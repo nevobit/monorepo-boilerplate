@@ -14,25 +14,19 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     loading?: boolean;
 }
 
-const Button = ({ disabled, loading, ...rest }: ButtonProps) => {
-    const isDisabled = disabled || loading;
+export const Button = ({ disabled, loading, ...rest }: ButtonProps) => {
+  const isDisabled = disabled || loading;
 
-    const className = classNames(
-        styles.button,
-        isDisabled && styles.disabled,
-        loading && styles.loading,
-    );
+  const className = classNames(
+    styles.button,
+    isDisabled && styles.disabled,
+    loading && styles.loading,
+  );
 
-    const commonProps = {
-        className,
-        ...rest
-    };
+  const commonProps = {
+    className,
+    ...rest,
+  };
 
-  return (
-    <button {...commonProps} >
-
-    </button>
-  )
-}
-
-export default Button
+  return <button {...commonProps}></button>;
+};

@@ -4,6 +4,7 @@ declare global {
         NODE_ENV: 'local' | 'development' | 'production' | 'test' | 'staging';
         PORT: number;
         DATABASE_URL: string;
+        REDIS_URL: string;
         HOST: string;
         REGION: string;
         CORS_ORIGIN: string;
@@ -14,8 +15,8 @@ declare global {
         POSTGRES_URL: string;
         OPENAI_API_KEY: string;
         MERCADOPAGO_ACCESS_TOKEN: string;
-        AWS_ACCESS_KEY: string;
-        AWS_SECRET_KEY: string;
+        AWS_ACCESS_KEY_ID: string;
+        AWS_SECRET_ACCESS_KEY: string;
         AWS_S3_BUCKET_NAME: string;
         GOOGLE_APPLICATION_CREDENTIALS: string;
         FIREBASE_PROJECT_ID: string;
