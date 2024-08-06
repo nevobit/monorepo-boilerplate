@@ -9,7 +9,6 @@ declare global {
         REGION: string;
         CORS_ORIGIN: string;
         ENVIRONMENT: string;
-        NODE_ENV: string;
         JWT_SECRET: string;
         MONGO_URL: string;
         POSTGRES_URL: string;
@@ -27,6 +26,10 @@ declare global {
         GOOGLE_AI_KEY: string;
         RESEND_KEY: string;
         APPLICATION_NAME: string;
+        STRIPE_SECRET_KEY: string;
+        PAYPAL_CLIENT_ID: string;
+        PAYPAL_SECRET: string;
+        PAYPAL_BASE_URL: string;
       }
     }
   }

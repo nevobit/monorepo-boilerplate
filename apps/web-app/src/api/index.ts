@@ -40,13 +40,10 @@ apiInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response) {
-            // Manejar errores de respuesta (e.g., 404, 500)
             console.error('Response error:', error.response.status, error.response.data);
         } else if (error.request) {
-            // Manejar errores de red
             console.error('Network error:', error.request);
         } else {
-            // Manejar otros errores
             console.error('Error:', error.message);
         }
         return Promise.reject(error);

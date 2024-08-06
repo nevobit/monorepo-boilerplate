@@ -16,10 +16,15 @@
     "@repo/core-modules": "workspace:^",
     "@repo/data-sources": "workspace:^",
     "@repo/entities": "workspace:^",
+    "axios": "^1.7.3",
     "fastify": "^4.28.1",
-    "mongoose": "^8.5.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.2",
+    "stripe": "^16.6.0"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:^"
+    "@repo/typescript-config": "workspace:^",
+    "@types/axios": "^0.14.0",
+    "@types/jsonwebtoken": "^9.0.6"
   }
 }

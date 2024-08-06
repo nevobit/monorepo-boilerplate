@@ -8,7 +8,6 @@ declare global {
         REGION: string;
         CORS_ORIGIN: string;
         ENVIRONMENT: string;
-        NODE_ENV: string;
         JWT_SECRET: string;
         MONGO_URL: string;
         POSTGRES_URL: string;
@@ -27,6 +26,7 @@ declare global {
         RESEND_KEY: string;
         APPLICATION_NAME: string;
         METHODS: 'GET' | 'POST' | 'OPTIONS';
+        STRIPE_SECRET_KEY: string;
       }
     }
   }
