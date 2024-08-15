@@ -1,27 +1,38 @@
-export const swaggerOptions = {
-    routePrefix: '/documentation',
-    exposeRoute: true,
-    swagger: {
-      info: {
-        title: '@repo',
-        description: 'API Documentation',
-        version: '1.0.0'
-      },
-      tags: [
-        { name: 'Authentication', description: 'Endpoints de autenticación' }
-      ],
-      paths: {
-        // ...authRoutes
-      },
-      components: {
-        // schemas: schemas
-      }
-    }
+import { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
+import { OpenAPIV3_1 } from 'openapi-types';
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
+import yaml from 'js-yaml';
+import * as schemas from "./schemas";
+
+const routesPath = join(__dirname, 'routes');
+const yamlFiles = readdirSync(routesPath).filter(file => file.endsWith('.yaml'));
+
+const paths: OpenAPIV3_1.PathsObject = {};
+
+yamlFiles.forEach(file => {
+  const fileContent = readFileSync(join(routesPath, file), 'utf8');
+  const yamlContent = yaml.load(fileContent) as OpenAPIV3_1.PathsObject;
+  Object.assign(paths, yamlContent);
+});
+
+export const swaggerOptions: FastifyDynamicSwaggerOptions = {
+  openapi: {
+    info: {
+      title: '@repo OpenAPI',
+      description: 'API Documentation with OpenAPI',
+      version: '1.0.0'
+    },
+    servers: [{ url: 'http://localhost:8000/api/v1' }],
+    paths: paths,
+    components: {
+      schemas: schemas as Record<string, OpenAPIV3_1.SchemaObject>
+    },
+  },
+  hideUntagged: true
 };
 
 export const swaggerUiOptions = {
-    routePrefix: "api/v1/docs",
-    exposeRoute: true,
-  };
-
-  
+  routePrefix: "/docs",
+  exposeRoute: true,
+};

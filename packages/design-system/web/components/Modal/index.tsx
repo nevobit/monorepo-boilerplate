@@ -23,7 +23,7 @@ export const useModal = () => {
   return context;
 };
 
-export const Modal = ({ children }: { children: ReactNode }) => {
+export const Modal = ({ children }: { children?: ReactNode }) => {
   const [modalStack, setModalStack] = useState<ReactNode[]>([]);
 
   const openModal = (modal: ReactNode) => {

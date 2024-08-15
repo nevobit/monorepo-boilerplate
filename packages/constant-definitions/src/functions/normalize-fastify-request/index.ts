@@ -1,7 +1,8 @@
 import { NormalizedRequest, RequestInterface } from '../../types/normalized-request';
 import { alertOverrideConflict } from '../alert-override-conflict';
-import { MonoContext } from '@repo/core-modules';
+import { Logger, MonoContext } from '@repo/core-modules';
 import { FastifyRequest } from 'fastify';
+type Headers = Record<string, string | string[] | undefined>;
 
 export const normalizeFastifyRequest = <R extends RequestInterface = RequestInterface>({
     method,
@@ -15,18 +16,19 @@ export const normalizeFastifyRequest = <R extends RequestInterface = RequestInte
     params,
     query,
 }: FastifyRequest): NormalizedRequest<R> => {
-    const logger = MonoContext.getStateValue('logger');
+    const logger = MonoContext.getStateValue('logger') as Logger;
 
     const normalizedHeaders: RequestInterface['Headers'] = (
         headers
     ) ? (
-        Object.keys(headers).reduce(
-            (a, b) => {
-                if (typeof headers[b] !== 'undefined') {
-                    a[b.toLowerCase()] = headers[b] as string;
+            Object.keys(headers).reduce<RequestInterface["Headers"]>(
+                (acc, key) => {
+                    if (typeof headers[key] !== 'undefined') {
+                        const newAcc = acc as Headers;
+                        newAcc[key.toLowerCase()] = headers[key] as string;
                 }
 
-                return a;
+                    return acc;
             },
             {} as RequestInterface['Headers']
         )
@@ -39,7 +41,7 @@ export const normalizeFastifyRequest = <R extends RequestInterface = RequestInte
 
     const path = url.split('?')[0];
 
-    alertOverrideConflict(body || {}, params || {}, (message) => logger.error(message));
+    alertOverrideConflict(body as Record<string, unknown> || {}, params as Record<string, unknown> || {}, (message) => logger.error(message));
 
     const newBody = {
         ...((body as Record<string, unknown>) || {}),

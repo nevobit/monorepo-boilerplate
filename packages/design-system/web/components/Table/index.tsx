@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-  useMemo,
-} from 'react';
+import { createContext, ReactNode, useContext, useState, useMemo } from 'react';
 import styles from './Table.module.css';
 
 export interface ColumnDef<T> {
@@ -20,7 +14,7 @@ interface TableContextProps<T> {
   data: T[];
   sortColumn: keyof T | null;
   sortDirection: 'asc' | 'desc' | null;
-  onSort: (column: keyof T) => void;
+  onSortData: (column: keyof T) => void;
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
@@ -55,7 +49,7 @@ export function Table<T>({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
 
-  const onSort = (column: keyof T) => {
+  const onSortData = (column: keyof T) => {
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -96,7 +90,9 @@ export function Table<T>({
         data: paginatedData,
         sortColumn,
         sortDirection,
-        onSort,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        onSortData,
         currentPage,
         totalPages,
         setCurrentPage,
@@ -113,14 +109,16 @@ export function Table<T>({
 function Header<T>() {
   const context = useContext(TableContext) as TableContextProps<T>;
   if (!context) throw new Error('Header must be used within a Table');
-  const { columns, onSort, sortColumn, sortDirection } = context;
+  const { columns, onSortData, sortColumn, sortDirection } = context;
   return (
     <div className={`${styles.header} ${styles.common_row}`} role="row">
       {columns.map((column, index) => (
         <div
           key={index}
           style={{ width: column.width }}
-          onClick={() => column.sortable && onSort(column.accessor as keyof T)}
+          onClick={() =>
+            column.sortable && onSortData(column.accessor as keyof T)
+          }
           className={column.sortable ? styles.sortable : ''}>
           {column.header}
           {column.sortable && sortColumn === column.accessor && (

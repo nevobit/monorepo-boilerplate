@@ -1,24 +1,35 @@
-/auth/sso:
+/auth/login:
   post:
-    summary: Authenticate with SSO
     tags:
       - Authentication
+    summary: Login user
     requestBody:
-      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SSORequest'
+            $ref: '#/components/schemas/loginSchema'
     responses:
       '200':
-        description: Successful authentication
+        description: Successful login
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthResponse'
-      '401':
-        description: Unauthorized
+              $ref: '#/components/schemas/userSchema'
+
+/auth/refresh-token:
+  post:
+    tags:
+      - Authentication
+    summary: Login user
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/loginSchema'
+    responses:
+      '200':
+        description: Successful login
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ErrorResponse'
+              $ref: '#/components/schemas/userSchema'

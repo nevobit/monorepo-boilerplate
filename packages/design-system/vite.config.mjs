@@ -49,4 +49,17 @@ export default defineConfig(() => ({
       globalModulePaths: [/global\.css$/],
     },
   },
+  resolve: {
+    alias: {
+      // Evita que Vite intente resolver módulos de React Native
+      'react-native': resolve(__dirname, 'src/web/react-native-stub.js'),
+      'react-native-gesture-handler': resolve(
+        __dirname,
+        'src/web/react-native-gesture-handler-stub.js',
+      ),
+    },
+  },
+  optimizeDeps: {
+    exclude: ['react-native', 'react-native-gesture-handler'],
+  },
 }));

@@ -89,7 +89,7 @@ const main = async () => {
     max: 30,
     timeWindow: "1 minute",
     keyGenerator: (request) => request.ip,
-    errorResponseBuilder: (request, context) => {
+    errorResponseBuilder: (_request, context) => {
       return {
         code: 429,
         error: "Too Many Requests",
@@ -111,7 +111,7 @@ const main = async () => {
   });
 
   server.register(
-    (instance, options, next) => {
+    (instance, _options, next) => {
       registerRoutes(instance);
       next();
     },
@@ -120,7 +120,8 @@ const main = async () => {
 
     server.listen(
       { port: Number(PORT) || 8000, host: HOST },
-    (err, address) => {
+      (err, address) => {
+        console.log(err)
       logger.all(`Server successfully started on: `, { address });
       logger.info("Press CTRL-c to stop");
     }

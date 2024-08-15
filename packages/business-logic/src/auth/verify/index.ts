@@ -20,7 +20,7 @@ export const verify = async ({ protocol, headers, body }: NormalizedRequest) => 
     }
 
     if (!timestamp || !signature) {
-        return { type: "error", message: "Unauthorized: Signature or timestamp is missing" }
+        return { type: "error", message: "Unauthorized: Credentials were missing or incorrect" }
     }
 
     const timestampNum = parseInt(timestamp, 10);

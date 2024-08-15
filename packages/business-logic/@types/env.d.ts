@@ -30,6 +30,7 @@ declare global {
       PAYPAL_CLIENT_ID: string;
       PAYPAL_SECRET: string;
       PAYPAL_BASE_URL: string;
+      JWT_REFRESH_SECRET: string;
     }
   }
 }
