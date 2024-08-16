@@ -118,11 +118,10 @@ const main = async () => {
     { prefix: "/api/v1" }
   );
 
-    server.listen(
-      { port: Number(PORT) || 8000, host: HOST },
-      (err, address) => {
-        console.log(err)
-      logger.all(`Server successfully started on: `, { address });
+  server.listen(
+    { port: Number(PORT) || 8000, host: HOST },
+    (err, address) => {
+      logger.all(`Server successfully started on: ${address}`, { address });
       logger.info("Press CTRL-c to stop");
     }
   );

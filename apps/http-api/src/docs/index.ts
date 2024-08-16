@@ -5,7 +5,11 @@ import { join } from 'path';
 import yaml from 'js-yaml';
 import * as schemas from "./schemas";
 
-const routesPath = join(__dirname, 'routes');
+const isProduction = process.env.NODE_ENV === 'production';
+const routesPath = !isProduction
+  ? join(__dirname, 'routes')
+  : join(__dirname, '..', 'routes');
+
 const yamlFiles = readdirSync(routesPath).filter(file => file.endsWith('.yaml'));
 
 const paths: OpenAPIV3_1.PathsObject = {};
@@ -35,4 +39,5 @@ export const swaggerOptions: FastifyDynamicSwaggerOptions = {
 export const swaggerUiOptions = {
   routePrefix: "/docs",
   exposeRoute: true,
+  config: {},
 };
